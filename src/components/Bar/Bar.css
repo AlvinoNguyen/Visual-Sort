@@ -1,0 +1,15 @@
+.bar {
+    border: solid 1px black;
+}
+
+.plain {
+    background-color: whitesmoke;
+}
+
+.current {
+    background-color: yellowgreen;
+}
+
+.selected {
+    background-color: tomato;
+}

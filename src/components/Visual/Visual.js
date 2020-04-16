@@ -10,7 +10,7 @@ class Visual extends React.Component {
                     className={`${bar.mode} bar`}
                     key={bar.key}
                     style={{
-                        width: 10,
+                        width: 5,
                         height: bar.height
                     }}
                 />)}

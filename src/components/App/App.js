@@ -5,11 +5,10 @@ class App extends React.Component {
     constructor() {
         super();
         const bars = [];
-        for(let i = 0; i < 100; i++) {
+        for(let i = 0; i < 125; i++) {
             bars.push({
                 height: i * 5 + 5,
                 mode: 'plain',
-                key: i
             });
         };
         this.state = {bars};
@@ -19,6 +18,8 @@ class App extends React.Component {
         this.selectionSort = this.selectionSort.bind(this);
         this.insertionSort = this.insertionSort.bind(this);
         this.bubbleSort = this.bubbleSort.bind(this);
+        this.mergeSort = this.mergeSort.bind(this);
+        this.merge = this.merge.bind(this);
     }
 
     resolveLater(n) {
@@ -76,8 +77,8 @@ class App extends React.Component {
             const temp = bars[i];
             bars[i] = bars[minIndex];
             bars[minIndex] = temp;
-            bars[i].mode = 'current';
             bars[minIndex].mode = 'selected';
+            bars[i].mode = 'current';
             this.setState({bars});
             bars[i].mode = 'plain';
             bars[minIndex].mode = 'plain';
@@ -134,6 +135,48 @@ class App extends React.Component {
         this.setState({bars});
     }
 
+    async mergeSort(bars, start, end) {
+        if(end - start <= 1) return;
+        const mid = Math.floor((start + end) / 2);
+        await this.mergeSort(bars, start, mid);
+        await this.mergeSort(bars, mid, end);
+        await this.merge(bars, start, mid, end);
+        this.setState({bars});
+    }
+
+    async merge(bars, start, mid, end) {
+        let i = start, j = mid, subBars = [];
+        while(i < mid || j < end) {
+            if(i !== end) bars[i].mode = 'current';
+            if(j !== end) bars[j].mode = 'current';
+            this.setState({bars});
+            if(i === mid) {
+                subBars.push(bars[j]);
+                j++;
+            } else if(j === end) {
+                subBars.push(bars[i]);
+                i++;
+            } else if(bars[i].height > bars[j].height) {
+                subBars.push(bars[j]);
+                j++;
+            } else {
+                subBars.push(bars[i]);
+                i++;
+            }
+            if(i !== end && i !== start) bars[i-1].mode = 'plain';
+            if(j !== end && j !== start) bars[j-1].mode = 'plain';
+            this.setState({bars});
+        }
+        for(let i = 0; i < subBars.length; i++) {
+            subBars[i].mode = 'selected';
+            bars[start+i] = subBars[i];
+            this.setState({bars});
+            subBars[i].mode = 'plain';
+            await this.resolveLater(1500 / bars.length);
+        }
+        bars[end - 1].mode = 'plain';
+    }
+
     render() {
         return (
             <div className="app-container">
@@ -142,6 +185,7 @@ class App extends React.Component {
                 <button onClick={this.selectionSort}>selection sort</button>
                 <button onClick={this.insertionSort}>insertion sort</button>
                 <button onClick={this.bubbleSort}>bubble sort</button>
+                <button onClick={() => this.mergeSort(this.state.bars.slice(), 0, this.state.bars.length)}>mergesort</button>
             </div>
         );
     }

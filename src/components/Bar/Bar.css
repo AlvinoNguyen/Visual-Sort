@@ -1,9 +1,9 @@
 .bar {
-    border: solid 1px black;
+    border: none;
 }
 
 .plain {
-    background-color: whitesmoke;
+    background-color: lightgray;
 }
 
 .current {

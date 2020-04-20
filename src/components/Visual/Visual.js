@@ -8,7 +8,6 @@ class Visual extends React.Component {
             <div className="visual">
                 {this.props.bars.map(bar => <div
                     className={`${bar.mode} bar`}
-                    key={bar.height}
                     style={{
                         width: 5,
                         height: bar.height

@@ -177,6 +177,41 @@ class App extends React.Component {
         bars[end - 1].mode = 'plain';
     }
 
+    async quickSort(bars, start, end) {
+        if(start < end) {
+            const p = await this.partition(bars, start, end);
+            await this.quickSort(bars, start, p-1);
+            await this.quickSort(bars, p+1, end);
+        }
+    }
+
+    async partition(bars, start, end) {
+        let pivot = bars[end].height;
+        let i = start;
+        bars[i].mode = 'selected';
+        for(let j = start; j < end; j++) {
+            if(bars[j].height < pivot) {
+                const temp = bars[i];
+                bars[i] = bars[j];
+                bars[j] = temp;
+                bars[i].mode = 'plain';
+                i++;
+                bars[i].mode = 'selected';
+            }
+            bars[j].mode = 'current';
+            this.setState({bars});
+            await this.resolveLater(1500 / bars.length);
+            bars[j].mode = 'plain';
+        }
+        const temp = bars[i];
+        bars[i] = bars[end];
+        bars[end] = temp;
+        bars[i].mode = 'plain';
+        bars[end].mode = 'plain';
+        this.setState({bars});
+        return i;
+    }
+
     render() {
         return (
             <div className="app-container">
@@ -186,6 +221,7 @@ class App extends React.Component {
                 <button onClick={this.insertionSort}>insertion sort</button>
                 <button onClick={this.bubbleSort}>bubble sort</button>
                 <button onClick={() => this.mergeSort(this.state.bars.slice(), 0, this.state.bars.length)}>mergesort</button>
+                <button onClick={() => this.quickSort(this.state.bars.slice(), 0, this.state.bars.length - 1)}>quicksort</button>
             </div>
         );
     }

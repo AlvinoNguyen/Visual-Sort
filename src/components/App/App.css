@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: url('https://upload.wikimedia.org/wikipedia/commons/4/41/Pixel_heart_red.svg'), auto;
+}
+
+body {
+    background-color: black;
+}
+
+.corner::before {
+    content: "";
+    display: inline-block;
+    width: .5rem;
+    height: .5rem;
+    background-color: black;
+    z-index: 1;
+    position: absolute;
+}
+
+.corner::after {
+    content: "";
+    display: inline-block;
+    width: .5rem;
+    height: .5rem;
+    background-color: whitesmoke;
+    position: absolute;
+}
+
+.top-left::before {
+    top: -.75rem;
+    left: -.75rem;
+}
+
+.top-left::after {
+    top: 0;
+    left: 0;
+}
+
+.top-right::before {
+    top: -.75rem;
+    right: -.75rem;
+}
+
+.top-right::after {
+    top: 0;
+    right: 0;
+}
+
+.bottom-left::before {
+    bottom: -.75rem;
+    left: -.75rem;
+}
+
+.bottom-left::after {
+    bottom: 0;
+    left: 0;
+}
+
+.bottom-right::before {
+    bottom: -.75rem;
+    right: -.75rem;
+}
+
+.bottom-right::after {
+    bottom: 0;
+    right: 0;
+}
+
+.test-border {
+    border: solid .75rem whitesmoke;
+    padding: 1.5rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: .5rem;
+}
+
+h1 {
+    font-family: 'Press Start 2P', cursive;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}

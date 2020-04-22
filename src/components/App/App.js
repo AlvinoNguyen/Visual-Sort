@@ -1,13 +1,18 @@
 import React from 'react';
 import Visual from '../Visual/Visual.js';
+import './App.css';
 
 class App extends React.Component {
     constructor() {
+        const numBars = 100;
+        const barWidth = 3;
+
         super();
         const bars = [];
-        for(let i = 0; i < 125; i++) {
+        for(let i = 0; i < numBars; i++) {
             bars.push({
-                height: i * 5 + 5,
+                width: barWidth,
+                height: i * barWidth + barWidth,
                 mode: 'plain',
             });
         };
@@ -215,7 +220,24 @@ class App extends React.Component {
     render() {
         return (
             <div className="app-container">
-                <Visual bars={this.state.bars}/>
+                <header className="test-border">
+                    <h1>Visual Sort</h1>
+                    <div className="corner top-left"></div>
+                    <div className="corner top-right"></div>
+                    <div className="corner bottom-left"></div>
+                    <div className="corner bottom-right"></div>
+                </header>
+                <div className="test-border">
+                    <Visual
+                        bars={this.state.bars}
+                        width={this.state.bars[0].width * this.state.bars.length}
+                        height={this.state.bars[0].width * this.state.bars.length}
+                    />
+                    <div className="corner top-left"></div>
+                    <div className="corner top-right"></div>
+                    <div className="corner bottom-left"></div>
+                    <div className="corner bottom-right"></div>
+                </div>
                 <button onClick={this.shuffle}>shuffle</button>
                 <button onClick={this.selectionSort}>selection sort</button>
                 <button onClick={this.insertionSort}>insertion sort</button>

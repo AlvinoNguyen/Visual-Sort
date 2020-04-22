@@ -3,7 +3,7 @@
 }
 
 .plain {
-    background-color: lightgray;
+    background-color: whitesmoke;
 }
 
 .current {
@@ -11,5 +11,5 @@
 }
 
 .selected {
-    background-color: tomato;
+    background-color: red;
 }

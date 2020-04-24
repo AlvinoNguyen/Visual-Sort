@@ -7,8 +7,15 @@
     cursor: url('https://upload.wikimedia.org/wikipedia/commons/4/41/Pixel_heart_red.svg'), auto;
 }
 
+:root {
+    --app-font: 'Press Start 2P', cursive;
+    --background-color: black;
+    --text-color: whitesmoke;
+    --header-border-size: .5rem;
+}
+
 body {
-    background-color: black;
+    background-color: var(--background-color);
 }
 
 .corner::before {
@@ -16,7 +23,7 @@ body {
     display: inline-block;
     width: .5rem;
     height: .5rem;
-    background-color: black;
+    background-color: var(--background-color);
     z-index: 1;
     position: absolute;
 }
@@ -26,13 +33,13 @@ body {
     display: inline-block;
     width: .5rem;
     height: .5rem;
-    background-color: whitesmoke;
+    background-color: var(--text-color);
     position: absolute;
 }
 
 .top-left::before {
-    top: -.75rem;
-    left: -.75rem;
+    top: calc(-1 * var(--header-border-size));
+    left: calc(-1 * var(--header-border-size));
 }
 
 .top-left::after {
@@ -41,8 +48,8 @@ body {
 }
 
 .top-right::before {
-    top: -.75rem;
-    right: -.75rem;
+    top: calc(-1 * var(--header-border-size));
+    right: calc(-1 * var(--header-border-size));
 }
 
 .top-right::after {
@@ -51,8 +58,8 @@ body {
 }
 
 .bottom-left::before {
-    bottom: -.75rem;
-    left: -.75rem;
+    bottom: calc(-1 * var(--header-border-size));
+    left: calc(-1 * var(--header-border-size));
 }
 
 .bottom-left::after {
@@ -61,8 +68,8 @@ body {
 }
 
 .bottom-right::before {
-    bottom: -.75rem;
-    right: -.75rem;
+    bottom: calc(-1 * var(--header-border-size));
+    right: calc(-1 * var(--header-border-size));
 }
 
 .bottom-right::after {
@@ -71,7 +78,7 @@ body {
 }
 
 .test-border {
-    border: solid .75rem whitesmoke;
+    border: solid var(--header-border-size) var(--text-color);
     padding: 1.5rem;
     position: relative;
     display: flex;
@@ -79,17 +86,72 @@ body {
     margin: .5rem;
 }
 
+#root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+}
+
 h1 {
-    font-family: 'Press Start 2P', cursive;
-    color: whitesmoke;
+    font-family: var(--app-font);
+    color: var(--text-color);
     text-align: center;
 }
 
 .app-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: auto;
+}
+
+button {
+    background: none;
+    font-family: var(--app-font);
+    color: var(--text-color);
+    text-align: center;
+    padding: .75rem;
+    border: solid .2rem var(--text-color);
+    margin: .5rem 1rem; 
+}
+
+main {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
+}
+
+header {
+    grid-column: 2;
+}
+
+.column {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.left {
+    grid-column: 1;
+}
+
+.right {
+    grid-column: 3;
+}
+
+@media (max-width: 600px) {
+    .app-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    header {
+        grid-column: 1 / span 2;
+    }
+
+    .right {
+        grid-column: 2;
+    }
+
+    .visual-container {
+        grid-column: 1 / span 2;
+        grid-row: 2;
+    }
 }

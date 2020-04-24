@@ -5,7 +5,7 @@ import './App.css';
 class App extends React.Component {
     constructor() {
         const numBars = 100;
-        const barWidth = 3;
+        const barWidth = window.innerWidth > 600 ? 3 : 2;
 
         super();
         const bars = [];
@@ -227,23 +227,28 @@ class App extends React.Component {
                     <div className="corner bottom-left"></div>
                     <div className="corner bottom-right"></div>
                 </header>
-                <div className="test-border">
-                    <Visual
-                        bars={this.state.bars}
-                        width={this.state.bars[0].width * this.state.bars.length}
-                        height={this.state.bars[0].width * this.state.bars.length}
-                    />
-                    <div className="corner top-left"></div>
-                    <div className="corner top-right"></div>
-                    <div className="corner bottom-left"></div>
-                    <div className="corner bottom-right"></div>
-                </div>
-                <button onClick={this.shuffle}>shuffle</button>
-                <button onClick={this.selectionSort}>selection sort</button>
-                <button onClick={this.insertionSort}>insertion sort</button>
-                <button onClick={this.bubbleSort}>bubble sort</button>
-                <button onClick={() => this.mergeSort(this.state.bars.slice(), 0, this.state.bars.length)}>mergesort</button>
-                <button onClick={() => this.quickSort(this.state.bars.slice(), 0, this.state.bars.length - 1)}>quicksort</button>
+                    <div className="column left">
+                        <button onClick={this.shuffle}>Shuffle</button>
+                        <button onClick={this.selectionSort}>Selection Sort</button>
+                        <button onClick={this.insertionSort}>Insertion Sort</button>
+                        <button onClick={this.bubbleSort}>Bubble Sort</button>
+                    </div>
+                    <div className="visual-container test-border">
+                        <Visual
+                            bars={this.state.bars}
+                            width={this.state.bars[0].width * this.state.bars.length}
+                            height={this.state.bars[0].width * this.state.bars.length}
+                        />
+                        <div className="corner top-left"></div>
+                        <div className="corner top-right"></div>
+                        <div className="corner bottom-left"></div>
+                        <div className="corner bottom-right"></div>
+                    </div>
+                    <div className="column right">
+                        <button onClick={() => this.mergeSort(this.state.bars.slice(), 0, this.state.bars.length)}>Mergesort</button>
+                        <button onClick={() => this.quickSort(this.state.bars.slice(), 0, this.state.bars.length - 1)}>Quicksort</button>
+                        <button>Heapsort</button>
+                    </div>
             </div>
         );
     }

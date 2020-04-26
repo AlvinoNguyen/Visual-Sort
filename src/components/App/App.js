@@ -25,6 +25,8 @@ class App extends React.Component {
         this.bubbleSort = this.bubbleSort.bind(this);
         this.mergeSort = this.mergeSort.bind(this);
         this.merge = this.merge.bind(this);
+        this.quickSort = this.quickSort.bind(this);
+        this.heapSort = this.heapSort.bind(this);
     }
 
     resolveLater(n) {
@@ -217,6 +219,47 @@ class App extends React.Component {
         return i;
     }
 
+    async heapSort() {
+        const bars = this.state.bars.slice();
+        for(let i = 0; i < bars.length; i++) {
+            let cur = i;
+            let j = Math.floor((cur - 1) / 2);
+            while(j > -1 && bars[j].height < bars[cur].height) {
+                const temp = bars[cur];
+                bars[cur] = bars[j];
+                bars[j] = temp;
+                cur = j;
+                j = Math.floor((cur - 1) / 2);
+                await this.resolveLater(1500 / bars.length);
+                this.setState({bars});
+            }
+        }
+
+        for(let i = bars.length - 1; i >= 0; i--) {
+            const temp = bars[i];
+            bars[i] = bars[0];
+            bars[0] = temp;
+            this.setState({bars});
+            let cur = 0;
+            let ch1 = 2 * cur + 1;
+            let ch2 = 2 * cur + 2;
+            while(ch1 < i) {
+                const height1 = bars[ch1].height;
+                const height2 = ch2 < i ? bars[ch2].height : -1;
+                if(bars[cur].height < height1 || bars[cur].height < height2) {
+                    const temp = bars[height1 > height2 ? ch1 : ch2];
+                    bars[height1 > height2 ? ch1 : ch2] = bars[cur];
+                    bars[cur] = temp;
+                    cur = height1 > height2 ? ch1 : ch2;
+                    ch1 = 2 * cur + 1;
+                    ch2 = 2 * cur + 2;
+                    this.setState({bars});
+                    await this.resolveLater(1500 / bars.length);
+                } else break;
+            }
+        }
+    }
+
     render() {
         return (
             <div className="app-container">
@@ -247,7 +290,7 @@ class App extends React.Component {
                     <div className="column right">
                         <button onClick={() => this.mergeSort(this.state.bars.slice(), 0, this.state.bars.length)}>Mergesort</button>
                         <button onClick={() => this.quickSort(this.state.bars.slice(), 0, this.state.bars.length - 1)}>Quicksort</button>
-                        <button>Heapsort</button>
+                        <button onClick={() => this.heapSort()}>Heapsort</button>
                     </div>
             </div>
         );

@@ -2,3 +2,19 @@
     display: flex;
     align-items: flex-end;
 }
+
+.bar {
+    border: none;
+}
+
+.plain {
+    background-color: whitesmoke;
+}
+
+.current {
+    background-color: yellowgreen;
+}
+
+.selected {
+    background-color: red;
+}

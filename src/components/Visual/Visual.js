@@ -1,6 +1,5 @@
 import React from 'react';
 import '../Visual/Visual.css';
-import '../Bar/Bar.css';
 
 class Visual extends React.Component {
     render() {

@@ -11,10 +11,13 @@
     --app-font: 'Press Start 2P', cursive;
     --background-color: black;
     --text-color: whitesmoke;
+    --active-color: orange;
     --header-border-size: .5rem;
 }
 
 body {
+    display: flex;
+    justify-content: center;
     background-color: var(--background-color);
 }
 
@@ -98,6 +101,7 @@ h1 {
     font-family: var(--app-font);
     color: var(--text-color);
     text-align: center;
+    user-select: none;
 }
 
 .app-container {
@@ -113,7 +117,13 @@ button {
     text-align: center;
     padding: .75rem;
     border: solid .2rem var(--text-color);
-    margin: .5rem 1rem; 
+    margin: .5rem 1rem;
+    user-select: none; 
+}
+
+button:active {
+    color: var(--active-color);
+    border: solid .2rem var(--active-color);
 }
 
 main {
@@ -137,7 +147,11 @@ header {
     grid-column: 3;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+    #root {
+        width: 50%;
+    }
+
     .app-container {
         grid-template-columns: repeat(2, 1fr);
     }

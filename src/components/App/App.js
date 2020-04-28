@@ -16,10 +16,12 @@ class App extends React.Component {
                 mode: 'plain',
             });
         };
-        this.state = {bars};
+        this.state = {
+            bars,
+            running: false
+        };
 
         this.shuffle = this.shuffle.bind(this);
-        this.sort = this.sort.bind(this);
         this.selectionSort = this.selectionSort.bind(this);
         this.insertionSort = this.insertionSort.bind(this);
         this.bubbleSort = this.bubbleSort.bind(this);
@@ -38,6 +40,8 @@ class App extends React.Component {
     }
 
     async shuffle() {
+        if(this.state.running) return;
+        this.setState({running: true});
         const bars = this.state.bars.slice();
         for(let i = 0; i < bars.length; i++) {
             const randIndex = Math.floor(bars.length * Math.random());
@@ -51,27 +55,15 @@ class App extends React.Component {
             bars[i].mode = 'plain';
             bars[randIndex].mode = 'plain';
         }
-        this.setState({bars});
-    }
-
-    async sort() {
-        function resolveLater(n) { 
-            return new Promise(resolve => {
-              setTimeout(() => {
-                console.log('test');
-                resolve();
-              }, n);
-            });
-        }  
-        const bars = this.state.bars.slice();
-        bars.sort(async (a, b) => {
-            await resolveLater(100);
-            return a.key - b.key;
+        this.setState({
+            bars,
+            running: false
         });
-        this.setState({bars});
     }
 
     async selectionSort() {
+        if(this.state.running) return;
+        this.setState({running: true});
         const bars = this.state.bars.slice();
         for(let i = 0; i < bars.length; i++) {
             let minIndex = i, minHeight = bars[i].height;
@@ -92,9 +84,15 @@ class App extends React.Component {
             await this.resolveLater(5000 / bars.length);
             this.setState({bars});
         }
+        this.setState({
+            bars,
+            running: false
+        });
     }
 
     async insertionSort() {
+        if(this.state.running) return;
+        this.setState({running: true});
         const bars = this.state.bars.slice();
         for(let i = 0; i < bars.length; i++) {
             for(let j = i; j > 0; j--) {
@@ -116,10 +114,15 @@ class App extends React.Component {
             }
             bars[i].mode = 'plain';
         }
-        this.setState({bars});
+        this.setState({
+            bars,
+            running: false
+        });
     }
 
     async bubbleSort() {
+        if(this.state.running) return;
+        this.setState({running: true});
         const bars = this.state.bars.slice();
         let swapped = true;
         while(swapped) {
@@ -139,16 +142,24 @@ class App extends React.Component {
                 bars[i+1].mode = 'plain';
             }
         }
-        this.setState({bars});
+        this.setState({
+            bars,
+            running: false
+        });
     }
 
     async mergeSort(bars, start, end) {
+        if(start === 0 && end === this.state.bars.length) {
+            if(this.state.running) return;
+            this.setState({running: true});
+        }
         if(end - start <= 1) return;
         const mid = Math.floor((start + end) / 2);
         await this.mergeSort(bars, start, mid);
         await this.mergeSort(bars, mid, end);
         await this.merge(bars, start, mid, end);
         this.setState({bars});
+        if(start === 0 && end === this.state.bars.length) this.setState({running: false});
     }
 
     async merge(bars, start, mid, end) {
@@ -185,11 +196,16 @@ class App extends React.Component {
     }
 
     async quickSort(bars, start, end) {
+        if(start === 0 && end === this.state.bars.length - 1) {
+            if(this.state.running) return;
+            this.setState({running: true});
+        }
         if(start < end) {
             const p = await this.partition(bars, start, end);
             await this.quickSort(bars, start, p-1);
             await this.quickSort(bars, p+1, end);
         }
+        if(start === 0 && end === this.state.bars.length - 1) this.setState({running: false});
     }
 
     async partition(bars, start, end) {
@@ -220,6 +236,8 @@ class App extends React.Component {
     }
 
     async heapSort() {
+        if(this.state.running) return;
+        this.setState({running: true});
         const bars = this.state.bars.slice();
         for(let i = 0; i < bars.length; i++) {
             let cur = i;
@@ -258,6 +276,11 @@ class App extends React.Component {
                 } else break;
             }
         }
+
+        this.setState({
+            bars,
+            running: false
+        });
     }
 
     render() {
@@ -290,7 +313,7 @@ class App extends React.Component {
                     <div className="column right">
                         <button onClick={() => this.mergeSort(this.state.bars.slice(), 0, this.state.bars.length)}>Mergesort</button>
                         <button onClick={() => this.quickSort(this.state.bars.slice(), 0, this.state.bars.length - 1)}>Quicksort</button>
-                        <button onClick={() => this.heapSort()}>Heapsort</button>
+                        <button onClick={this.heapSort}>Heapsort</button>
                     </div>
             </div>
         );
